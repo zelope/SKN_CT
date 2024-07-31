@@ -2,21 +2,23 @@ import  sys
 
 
 def solve():
-    n,m = map(int, sys.stdin.readline().split())
-    # n = 개수 m = 근점해야하는 값
-    n_list = list(map(int, sys.stdin.readline().split()))
-    answer = -1 
-    
-    for i in range(n):
-        for j in range(i+1,n):
-            for k in range(j+1,n):
-                b_force = n_list[i]+n_list[j]+n_list[k]
-                
-                if (b_force <= m) and (b_force > answer):
-                    answer = b_force
-    
-    return answer
+    n = int(input())
+    size_list = list(map(int, sys.stdin.readline().split()))
+    t, p = map(int, sys.stdin.readline().split())
+    p_ans = n // p
+    p_rest = n % p
+    t_ans = 0
+    for size in size_list:
+        if size == 0:
+            continue
+        need = size // t
+        if size%t == 0:
+            t_ans += need
+        else:
+            t_ans += need+1
+    print(f'We need {t_ans} T-shirt bundle \n We need {p_ans} pencil bundle and {p_rest} pieces')
+    return None
 
 if __name__ == "__main__":
     
-    print(type(eval("1+1")))
+    solve()
