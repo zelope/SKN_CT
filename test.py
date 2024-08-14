@@ -1,39 +1,31 @@
-import sys
-from collections import deque
+import re
+def _cnt_updown(name_chr:str) -> int:
+    answer = ord(name_chr) - ord("A")
+    if answer > 12:
+        answer = 26 - answer
+    
+    return answer
 
-CNT = int(sys.stdin.readline().strip())
+def _cnt_rightleft(name:str) -> int:
+    pattern = r"A+"
+    matches = re.findall(pattern,name)
+    if matches:
+        cnt_A = max(len(match) for match in matches)
+    else:
+        cnt_A = 0
+    answer = len(name) - (cnt_A+1)
+    if answer < 0:
+        answer = 0
+    return answer
 
-for _ in range(CNT):
-    value_dict = dict()
-    index_deque = deque([])
-    importance_list = list()
-    
-    N,M = map(int,sys.stdin.readline().split())
-    input_list = map(int,sys.stdin.readline().split())
-    
-    
-    order = 0
-    
-    for i,ele in enumerate(input_list):
-        str_i = str(i)
-        value_dict[str_i] = ele
-        index_deque.append(str_i)
-        importance_list.append(ele)
-    
-    importance_list.sort(reverse=True)
-    
-    importance_deque = deque(importance_list)
-    while len(index_deque) > 0:
-        is_target = index_deque[0]
-        if  value_dict[is_target] == importance_deque[0]:
-            importance_deque.popleft()
-            index_deque.popleft()
-            order += 1
-            if is_target == str(M):
-                print(order)
-                break
-        else:
-            index_deque.rotate(-1)
-            
-    
+
+def solution(name):
+    answer = _cnt_rightleft(name)
+    for n_chr in name:
+        answer += _cnt_updown(n_chr)
+    return answer
+
+if __name__ == "__main__":
+    input_name = "JEROEN"
+    print(solution(input_name))
     
